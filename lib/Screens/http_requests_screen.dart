@@ -16,7 +16,7 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
   late List<dynamic> _posts = [];
 
   // late dynamic _dposts = [];
-  late List<dynamic> _cposts = [];
+  // late List<dynamic> _cposts = [];
   late dynamic posts;
   TextEditingController idController = TextEditingController();
   TextEditingController titleController = TextEditingController();
@@ -29,6 +29,7 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
     // _deleteData();
   }
 
+  @override
   void dispose() {
     super.dispose();
   }
@@ -43,10 +44,10 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
   //   Future.delayed(const Duration(seconds: 2)).then((value) => setState(() {}));
   // }
 
-  void _createData(String id, String title, String body) async {
-    _cposts = (await ApiService().postPosts(id, title, body)) as List;
-    Future.delayed(const Duration(seconds: 2)).then((value) => setState(() {}));
-  }
+  // void _createData(String id, String title, String body) async {
+  //   _cposts = (await ApiService().postPosts(id, title, body)) as List;
+  //   Future.delayed(const Duration(seconds: 2)).then((value) => setState(() {}));
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -86,7 +87,7 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
                                 color: Colors.black),
                           ),
                         ),
-                        Spacer(
+                        const Spacer(
                           flex: 1,
                         ),
                         Expanded(
@@ -98,11 +99,11 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
                                 color: Colors.black),
                           ),
                         ),
-                        Spacer(
+                        const Spacer(
                           flex: 1,
                         ),
                         GestureDetector(
-                          child: Icon(Icons.delete),
+                          child: const Icon(Icons.delete),
                           onTap: () async {
                             await ApiService().deletePosts(_posts[index]['id']);
                           },
@@ -120,7 +121,6 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
             ],
           )),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
         backgroundColor: Colors.grey.shade700,
         onPressed: () {
           showModalBottomSheet(
@@ -135,12 +135,21 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
                       children: [
                         TextFormField(
                           controller: idController,
+                          decoration: InputDecoration(
+                            hintText: 'Enter ID',
+                          ),
                         ),
                         TextFormField(
                           controller: titleController,
+                          decoration: InputDecoration(
+                            hintText: 'Enter Title',
+                          ),
                         ),
                         TextFormField(
                           controller: bodyController,
+                          decoration: InputDecoration(
+                            hintText: 'Enter Body',
+                          ),
                         ),
                         ElevatedButton(
                             onPressed: () async {
@@ -161,17 +170,18 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
                                   // ? ScaffoldMessenger.of(context).showSnackBar(
                                   //     SnackBar(content: Text('Posted')))
                                   : ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
+                                      const SnackBar(
                                           content:
                                               Text('Something went wrong')));
                             },
-                            child: Text('Post')),
+                            child: const Text('Post')),
                       ],
                     ),
                   ),
                 );
               });
         },
+        child: const Icon(Icons.add),
       ),
     );
   }
