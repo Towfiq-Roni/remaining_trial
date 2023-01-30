@@ -14,6 +14,7 @@ class HttpRequestsScreen extends StatefulWidget {
 
 class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
   late List<dynamic> _posts = [];
+  // late List<dynamic> _searchPosts = [];
 
   // late dynamic _dposts = [];
   // late List<dynamic> _cposts = [];
@@ -21,6 +22,8 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
   TextEditingController idController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
+  // TextEditingController searchController = TextEditingController();
+  // bool? _search = false;
 
   @override
   void initState() {
@@ -34,7 +37,7 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
     super.dispose();
   }
 
-  void _getData() async {
+  _getData() async {
     _posts = (await ApiService().getPosts())!;
     Future.delayed(const Duration(seconds: 2)).then((value) => setState(() {}));
   }
@@ -54,17 +57,38 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: const Text(
+        title:
+        // _search != true ?
+        const Text(
           'Posts',
           style: TextStyle(
               fontSize: 18, color: Colors.black, fontWeight: FontWeight.w600),
         ),
+        //     : TextField(
+        //   controller: searchController,
+        //   textInputAction: TextInputAction.search,
+        // ),
+        // actions: [
+        //   IconButton(onPressed: (){
+        //     _getData().then((value) {
+        //       setState(() {
+        //         _search = true;
+        //         _searchPosts = _posts;
+        //         _searchPosts.retainWhere((element) => element.startsWith('searchController.text'));
+        //         // searchController.text = value;
+        //         // value = _searchPosts;
+        //         // titleController = idController;
+        //       });
+        //     });
+        //   }, icon: const Icon(Icons.search, color: Colors.black,))
+        // ],
         backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
           child: Column(
             children: [
+              // _search != true ?
               ListView.separated(
                 physics: const NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
@@ -117,7 +141,60 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
                   color: Colors.white,
                   height: 10,
                 ),
-              ),
+              )
+              // : ListView.separated(
+              //   physics: const NeverScrollableScrollPhysics(),
+              //   shrinkWrap: true,
+              //   itemCount: _searchPosts.length,
+              //   itemBuilder: (context, index) {
+              //     return Container(
+              //       padding: const EdgeInsets.fromLTRB(16, 16, 16, 16),
+              //       decoration: BoxDecoration(
+              //         color: Colors.grey.shade300,
+              //         borderRadius: BorderRadius.circular(8),
+              //       ),
+              //       child: Row(
+              //         children: [
+              //           Expanded(
+              //             child: Text(
+              //               _searchPosts[index]['id'].toString(),
+              //               style: const TextStyle(
+              //                   fontWeight: FontWeight.w500,
+              //                   fontSize: 16,
+              //                   color: Colors.black),
+              //             ),
+              //           ),
+              //           const Spacer(
+              //             flex: 1,
+              //           ),
+              //           Expanded(
+              //             child: Text(
+              //               _searchPosts[index]['title'],
+              //               style: const TextStyle(
+              //                   fontWeight: FontWeight.w400,
+              //                   fontSize: 16,
+              //                   color: Colors.black),
+              //             ),
+              //           ),
+              //           const Spacer(
+              //             flex: 1,
+              //           ),
+              //           GestureDetector(
+              //             child: const Icon(Icons.delete),
+              //             onTap: () async {
+              //               await ApiService().deletePosts(_posts[index]['id']);
+              //             },
+              //           ),
+              //         ],
+              //       ),
+              //     );
+              //   },
+              //   separatorBuilder: (BuildContext context, int index) =>
+              //       const Divider(
+              //     color: Colors.white,
+              //     height: 10,
+              //   ),
+              // ),
             ],
           )),
       floatingActionButton: FloatingActionButton(
@@ -135,19 +212,19 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
                       children: [
                         TextFormField(
                           controller: idController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter ID',
                           ),
                         ),
                         TextFormField(
                           controller: titleController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter Title',
                           ),
                         ),
                         TextFormField(
                           controller: bodyController,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             hintText: 'Enter Body',
                           ),
                         ),
@@ -185,4 +262,8 @@ class _HttpRequestsScreenState extends State<HttpRequestsScreen> {
       ),
     );
   }
+
+  // Future<dynamic> showSearch<String>({
+  //
+  // })
 }
